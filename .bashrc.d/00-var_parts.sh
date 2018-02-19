@@ -1,5 +1,16 @@
 
+var_parts_debug=${var_parts_debug:-no}
+function var_parts_log() {
+	[ "$var_parts_debug" == "yes" ] && echo "$@" >&2
+}
 
+function var_parts_debug_on() {
+	var_parts_debug=yes
+}
+
+function var_parts_debug_off() {
+	var_parts_debug=no
+}
 
 function var_parts_array_parse() {
 	# Parse a string into an array name with optional separator
@@ -99,6 +110,7 @@ function var_parts_prepend() {
 	var_parts_array_remove __vpsp_parts "$__vpsp_string"
 	var_parts_array_prepend __vpsp_parts "$__vpsp_string"
 	var_parts_array_join __vpsp_parts "$__vpsp_name" "$__vpsp_sep"
+	var_parts_log "Prepending to $__vpsp_name part: '$__vpsp_string'"
 }
 
 function var_parts_append() {
@@ -115,6 +127,7 @@ function var_parts_append() {
 	var_parts_array_remove __vpsp_parts "$__vpsp_string"
 	var_parts_array_append __vpsp_parts "$__vpsp_string"
 	var_parts_array_join __vpsp_parts "$__vpsp_name"
+	var_parts_log " Appending to $__vpsp_name part: '$__vpsp_string'"
 }
 
 function var_parts_remove() {
@@ -130,5 +143,6 @@ function var_parts_remove() {
 	var_parts_array_parse __vpsp_parts "${!__vpsp_name}"
 	var_parts_array_remove __vpsp_parts "$__vpsp_string"
 	var_parts_array_join __vpsp_parts "$__vpsp_name"
+	var_parts_log "Removing from $__vpsp_name part: '$__vpsp_string'"
 }
 
