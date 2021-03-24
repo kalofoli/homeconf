@@ -1,0 +1,18 @@
+function _conda_install() {
+	local conda_root
+	local conda_setup
+	conda_root=$1
+	conda_setup=$( "$conda_root/bin/conda" 'shell.bash' hook 2> /dev/null)
+	if [ $? -eq 0 ]; then
+    	eval "$conda_setup"
+		true
+	else
+    	if [ -f "$conda_root/etc/profile.d/conda.sh" ]; then
+        	. "$conda_root/etc/profile.d/conda.sh"
+	    else
+			false
+    	    #export PATH="$__conda_root/bin:$PATH"
+	    fi
+	fi
+}
+#
